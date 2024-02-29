@@ -1,118 +1,75 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+// Import necessary libraries
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
+  Pressable,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
+// Define the App component
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // Declare a state variable to store the random background color
+  const [randomBackground, setRandomBackground] = useState("#ffffff");
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  // Define a function to generate a random color
+  const generateColor = () => {
+    // Define the possible hexadecimal characters
+    const hexRange = "0123456789ABCDEF"
+    // Initialize the color variable with the hash symbol
+    let color = "#"
+    // Loop through 6 times to generate a 6-digit hexadecimal color code
+    for (let i = 0; i < 6; i++) {
+      // Append a random hexadecimal character to the color variable
+      color += hexRange[Math.floor(Math.random() * 16)]
+    }
+    // Update the random background color state with the generated color
+    setRandomBackground(color)
+  }
 
+  // Return the JSX for the App component
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      {/* Set the background color of the StatusBar to the current random background color */}
+      <StatusBar backgroundColor={randomBackground} />
+      {/* Create a View component with a container style and a background color of the current random background color */}
+      <View style={[styles.container, { backgroundColor: randomBackground }]}>
+        {/* Create a TouchableOpacity component with an onPress event listener that calls the generateColor function */}
+        <TouchableOpacity onPress={generateColor}>
+          {/* Create a View component with an action button style */}
+          <View style={[styles.actionBtn]}>
+            {/* Create a Text component with an action button text style that displays the text "Press me" */}
+            <Text style={[styles.actionBtnTxt]}>Press me</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 }
 
+// Define the styles for the App component
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  sectionTitle: {
+  actionBtn: {
+    borderRadius: 12,
+    backgroundColor: "#192A56",
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+  },
+
+  actionBtnTxt: {
     fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
+    color: "#FFFFFF",
     fontWeight: '700',
   },
+
 });
 
+// Export the App component as the default export
 export default App;
